@@ -2,16 +2,16 @@
 set -euo pipefail
 echo "=== Q5 Setup: Build Container Image with Podman ==="
 
-mkdir -p /root/app-source
+mkdir -p ./app-source
 
-cat > /root/app-source/Dockerfile << 'DOCKERFILE'
+cat >./app-source/Dockerfile <<'DOCKERFILE'
 FROM nginx:alpine
 COPY index.html /usr/share/nginx/html/index.html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 DOCKERFILE
 
-cat > /root/app-source/index.html << 'HTML'
+cat >./app-source/index.html <<'HTML'
 <!DOCTYPE html>
 <html>
 <head><title>My App</title></head>

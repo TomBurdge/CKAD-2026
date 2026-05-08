@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web-frontend
+    tier: frontend
+  name: web-frontend
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: web-frontend
+      tier: frontend
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: web-frontend
+        tier: frontend
+    spec:
+      containers:
+      - image: httpd:latest
+        name: httpd
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}

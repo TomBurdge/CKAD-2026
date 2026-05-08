@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: pvc-pod
+  name: pvc-pod
+spec:
+  containers:
+  - image: nginx:latest
+    name: pvc-pod
+    volumeMounts:
+    - name: data-pvc
+      mountPath: "/usr/share/nginx/html"
+    resources: {}
+  volumes:
+    - name: data-pvc
+      persistentVolumeClaim:
+        claimName: data-pvc
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

@@ -1,0 +1,25 @@
+# The hard bit is verifying - see commands in `ANSWER.md`
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webapp
+  name: web-app-canary
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - image: nginx:latest
+        name: nginx
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}

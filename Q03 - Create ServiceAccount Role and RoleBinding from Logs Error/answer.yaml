@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: log-sa
+  namespace: q03
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: q03
+  name: log-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: q03
+  name: log-rb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: log-role
+subjects:
+- kind: ServiceAccount
+  name: log-sa
+  namespace: q03
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+  name: log-collector
+  namespace: q03
+spec:
+  serviceAccountName: log-sa
+  serviceAccount: log-sa
+  containers:
+  - command:
+    - sh
+    - -c
+    - |
+      while true; do
+        echo "Attempting to list pods..."
+        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+          -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+          --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt \
+          "https://kubernetes.default.svc/api/v1/namespaces/q03/pods" 2>&1)
+        if [ "$RESPONSE" != "200" ]; then
+          echo "ERROR: User \"system:serviceaccount:q03:default\" cannot list pods in the namespace \"q03\""
+        else
+          echo "Successfully listed pods"
+        fi
+        sleep 10
+      done
+    image: curlimages/curl:latest
+    imagePullPolicy: Always
+    name: log-collector
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-5jxbz
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: kind-worker
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-5jxbz
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace

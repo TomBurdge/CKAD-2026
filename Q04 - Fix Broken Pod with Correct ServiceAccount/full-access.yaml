@@ -1,0 +1,38 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"RoleBinding","metadata":{"annotations":{},"name":"admin-binding","namespace":"q04"},"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"full-access"},"subjects":[{"kind":"ServiceAccount","name":"admin-sa","namespace":"q04"}]}
+  creationTimestamp: "2026-05-03T12:56:04Z"
+  name: admin-binding
+  namespace: q04
+  resourceVersion: "668"
+  uid: b68bac6c-7ee0-4444-889b-1a223cc86e29
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: full-access
+subjects:
+- kind: ServiceAccount
+  name: admin-sa
+  namespace: q04
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"name":"full-access","namespace":"q04"},"rules":[{"apiGroups":["*"],"resources":["*"],"verbs":["*"]}]}
+  creationTimestamp: "2026-05-03T12:56:04Z"
+  name: full-access
+  namespace: q04
+  resourceVersion: "665"
+  uid: 045a6e66-ded0-423a-8291-2e6db190dc8e
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: env-app
+  name: env-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: env-app
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: env-app
+    spec:
+      containers:
+      - image: nginx:latest
+        name: nginx
+        resources: {}
+        envFrom:
+            - configMapRef:
+                name: app-config
+status: {}

@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: report-gen
+spec:
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    metadata:
+      name: report-gen
+    spec:
+      template:
+        metadata: {}
+        spec:
+          containers:
+          - image: busybox:latest
+            name: report-gen
+            command: ["sh", "-c", "echo Generating report && sleep 30"]
+            resources: {}
+          restartPolicy: Never
+  schedule: '*/5 * * * *'
+status: {}

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: app-pod
+  name: app-pod
+spec:
+  containers:
+  - image: nginx:latest
+    name: app
+    resources: {}
+  initContainers:
+  - name: init-mydb
+    image: busybox:latest
+    command: ["sh", "-c", "until nslookup mydb.q18.svc.cluster.local; do echo waiting; sleep 2; done"]
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

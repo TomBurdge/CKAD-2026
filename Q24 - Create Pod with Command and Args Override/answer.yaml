@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: log-aggregator
+  name: log-aggregator
+spec:
+  containers:
+  - image: busybox:latest
+    name: log-aggregator
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

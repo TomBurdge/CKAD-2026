@@ -1,0 +1,138 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2026-05-03T12:56:04Z"
+  generation: 1
+  name: metrics-pod
+  namespace: q04
+  resourceVersion: "687"
+  uid: 22a76c1b-414f-425f-8d08-6d5c5e36d93b
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - |
+      while true; do
+        echo "Attempting to read metrics..."
+        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+          -H "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+          --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt \
+          "https://kubernetes.default.svc/api/v1/namespaces/q04/pods" 2>&1)
+        if [ "$RESPONSE" != "200" ]; then
+          echo "ERROR: Authorization failed - cannot list pods with current ServiceAccount"
+        else
+          echo "Successfully retrieved metrics"
+        fi
+        sleep 10
+      done
+    image: curlimages/curl:latest
+    imagePullPolicy: Always
+    name: metrics
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dbtvw
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: kind-worker
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: monitor-sa
+  serviceAccountName: monitor-sa
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-dbtvw
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-03T12:56:08Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-03T12:56:04Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-03T12:56:08Z"
+    observedGeneration: 1
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-03T12:56:08Z"
+    observedGeneration: 1
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-03T12:56:04Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://b3b0ae5a1ff60f3d7998784c62265c5f6936aee5502cc4cd2068a28189274b21
+    image: docker.io/curlimages/curl:latest
+    imageID: docker.io/curlimages/curl@sha256:b3f1fb2a51d923260350d21b8654bbc607164a987e2f7c84a0ac199a67df812a
+    lastState: {}
+    name: metrics
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-05-03T12:56:08Z"
+    user:
+      linux:
+        gid: 101
+        supplementalGroups:
+        - 101
+        uid: 100
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-dbtvw
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.0.3
+  hostIPs:
+  - ip: 172.18.0.3
+  observedGeneration: 1
+  phase: Running
+  podIP: 10.244.1.2
+  podIPs:
+  - ip: 10.244.1.2
+  qosClass: BestEffort
+  startTime: "2026-05-03T12:56:04Z"

@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crashing-pod
+  namespace: q28
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - echo starting app; sleep 3600
+    image: busybox:latest
+    imagePullPolicy: Always
+    name: app
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-p5l6g
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: kind-worker
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-p5l6g
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-07T19:25:39Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-07T19:25:37Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-07T19:25:37Z"
+    message: 'containers with unready status: [app]'
+    observedGeneration: 1
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-07T19:25:37Z"
+    message: 'containers with unready status: [app]'
+    observedGeneration: 1
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-07T19:25:37Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://fb4ad53bdfaa9436855a6247224d896f3bc2f3dbbdc75196bc3c3339d81bdcf2
+    image: docker.io/library/busybox:latest
+    imageID: docker.io/library/busybox@sha256:1487d0af5f52b4ba31c7e465126ee2123fe3f2305d638e7827681e7cf6c83d5e
+    lastState:
+      terminated:
+        containerID: containerd://49a634b6a60d55e1fa9a839e1ff78ecfcd0058ddf1ff97b219593fa7647fc321
+        exitCode: 1
+        finishedAt: "2026-05-07T19:25:52Z"
+        reason: Error
+        startedAt: "2026-05-07T19:25:52Z"
+    name: app
+    ready: false
+    resources: {}
+    restartCount: 3
+    started: false
+    state:
+      terminated:
+        containerID: containerd://fb4ad53bdfaa9436855a6247224d896f3bc2f3dbbdc75196bc3c3339d81bdcf2
+        exitCode: 1
+        finishedAt: "2026-05-07T19:26:18Z"
+        reason: Error
+        startedAt: "2026-05-07T19:26:18Z"
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        - 10
+        uid: 0
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-p5l6g
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.0.2
+  hostIPs:
+  - ip: 172.18.0.2
+  observedGeneration: 1
+  phase: Running
+  podIP: 10.244.1.19
+  podIPs:
+  - ip: 10.244.1.19
+  qosClass: BestEffort
+  startTime: "2026-05-07T19:25:37Z"

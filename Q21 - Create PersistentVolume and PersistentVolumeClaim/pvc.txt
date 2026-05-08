@@ -1,0 +1,39 @@
+KIND:       PersistentVolumeClaim
+VERSION:    v1
+
+FIELD: spec <PersistentVolumeClaimSpec>
+
+
+DESCRIPTION:
+    spec defines the desired characteristics of a volume requested by a pod
+    author. More info:
+    https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims
+    PersistentVolumeClaimSpec describes the common attributes of storage devices
+    and allows a Source for provider-specific attributes
+    
+FIELDS:
+  accessModes	<[]string>
+  dataSource	<TypedLocalObjectReference>
+    apiGroup	<string>
+    kind	<string> -required-
+    name	<string> -required-
+  dataSourceRef	<TypedObjectReference>
+    apiGroup	<string>
+    kind	<string> -required-
+    name	<string> -required-
+    namespace	<string>
+  resources	<VolumeResourceRequirements>
+    limits	<map[string]Quantity>
+    requests	<map[string]Quantity>
+  selector	<LabelSelector>
+    matchExpressions	<[]LabelSelectorRequirement>
+      key	<string> -required-
+      operator	<string> -required-
+      values	<[]string>
+    matchLabels	<map[string]string>
+  storageClassName	<string>
+  volumeAttributesClassName	<string>
+  volumeMode	<string>
+  enum: Block, Filesystem
+  volumeName	<string>
+

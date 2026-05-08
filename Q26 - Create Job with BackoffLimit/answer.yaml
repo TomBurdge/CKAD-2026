@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: backup-job
+spec:
+  backoffLimit: 3
+  completions: 1
+  template:
+    metadata: {}
+    spec:
+      restartPolicy: Never
+      containers:
+      - image: busybox:latest
+        name: backup-job
+        resources: {}
+      restartPolicy: Never
+status: {}
