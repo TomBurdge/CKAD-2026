@@ -1,5 +1,9 @@
 # Practice Log
 
+Make sure strong at Q05 for podman/docker commands.
+
+This repo misses helm and kustomize - must review these before exam.
+
 ## 2026/05/18
 
 - [X] Q28 - 4 minutes, 15. No docs.
