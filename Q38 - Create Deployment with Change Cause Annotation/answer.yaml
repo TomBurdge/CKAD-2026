@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  creationTimestamp: null
   labels:
     app: tracked-app
-  annotations:
-    kubernetes.io/change-cause: "Initial deployment with nginx:1.20"
   name: tracked-app
+  namespace: q38
 spec:
   replicas: 3
   selector:
@@ -14,6 +14,7 @@ spec:
   strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: tracked-app
     spec:

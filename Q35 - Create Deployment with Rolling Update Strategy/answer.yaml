@@ -1,20 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  creationTimestamp: null
   labels:
     app: rolling-app
   name: rolling-app
+  namespace: q35
 spec:
   replicas: 5
   selector:
     matchLabels:
       app: rolling-app
-  strategy:
+  strategy: 
+    type: RollingUpdate
     rollingUpdate:
-      maxSurge: 2
       maxUnavailable: 1
+      maxSurge: 2
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: rolling-app
     spec:

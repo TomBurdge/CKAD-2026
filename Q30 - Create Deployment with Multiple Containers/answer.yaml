@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  creationTimestamp: null
   labels:
     app: multi-deploy
   name: multi-deploy
+  namespace: q30
 spec:
   replicas: 2
   selector:
@@ -12,6 +14,7 @@ spec:
   strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: multi-deploy
     spec:
@@ -23,6 +26,5 @@ spec:
         resources: {}
       - image: busybox:latest
         name: metrics
-        command: ["while true; do echo metrics; sleep 10; done"]
-        resources: {}
+        command: ["/bin/sh","-c", "while true; do echo metrics; sleep; done"]
 status: {}
