@@ -53,13 +53,13 @@ print_header "Q46 - View and Filter Pod Logs"
 
 # Check 1: File exists
 file_ok="false"
-[ -f /root/q46-errors.txt ] && file_ok="true"
-check_criterion "File /root/q46-errors.txt exists" "$file_ok" && ((score++)) || true
+[ -f ./q46-errors.txt ] && file_ok="true"
+check_criterion "File ./q46-errors.txt exists" "$file_ok" && ((score++)) || true
 
 # Check 2: File contains ERROR
 content_ok="false"
-if [ -f /root/q46-errors.txt ]; then
-  grep -q "ERROR" /root/q46-errors.txt 2>/dev/null && content_ok="true"
+if [ -f ./q46-errors.txt ]; then
+  grep -q "ERROR" ./q46-errors.txt 2>/dev/null && content_ok="true"
 fi
 check_criterion "File contains 'ERROR' text" "$content_ok" && ((score++)) || true
 

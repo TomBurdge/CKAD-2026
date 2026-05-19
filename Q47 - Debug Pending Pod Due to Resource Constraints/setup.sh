@@ -39,7 +39,7 @@ spec:
 EOF
 
 # Create a broken pod spec that exceeds remaining quota
-cat > /root/pending-pod.yaml <<'EOF'
+cat > ./pending-pod.yaml <<'EOF'
 apiVersion: v1
 kind: Pod
 metadata:
@@ -58,4 +58,4 @@ spec:
         memory: "400Mi"
 EOF
 
-echo "Setup complete. Check /root/pending-pod.yaml"
+echo "Setup complete. Check ./pending-pod.yaml"

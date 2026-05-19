@@ -1,0 +1,4 @@
+NAME                            READY   STATUS    RESTARTS   AGE     IP            NODE          NOMINATED NODE   READINESS GATES
+monitored-app-645998f45-25pw8   1/1     Running   0          2m48s   10.244.1.38   kind-worker   <none>           <none>
+monitored-app-645998f45-4p8bk   1/1     Running   0          2m48s   10.244.1.37   kind-worker   <none>           <none>
+monitored-app-645998f45-zg7hf   1/1     Running   0          2m48s   10.244.1.39   kind-worker   <none>           <none>

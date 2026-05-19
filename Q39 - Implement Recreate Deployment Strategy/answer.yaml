@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  creationTimestamp: null
   labels:
     app: recreate-app
   name: recreate-app
@@ -9,10 +10,11 @@ spec:
   selector:
     matchLabels:
       app: recreate-app
-  strategy: 
+  strategy:
     type: Recreate
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: recreate-app
     spec:

@@ -52,19 +52,19 @@ total=2
 print_header "Q49 - Monitor Pod Resource Usage"
 
 # Check 1: file exists
-if [ -f /root/q49-top.txt ]; then
+if [ -f ./q49-top.txt ]; then
   FILE_EXISTS="true"
 else
   FILE_EXISTS="false"
 fi
-check_criterion "File /root/q49-top.txt exists" "$FILE_EXISTS" && ((score++)) || true
+check_criterion "File ./q49-top.txt exists" "$FILE_EXISTS" && ((score++)) || true
 
 # Check 2: file is not empty
-if [ -f /root/q49-top.txt ] && [ -s /root/q49-top.txt ]; then
+if [ -f ./q49-top.txt ] && [ -s ./q49-top.txt ]; then
   FILE_NOTEMPTY="true"
 else
   FILE_NOTEMPTY="false"
 fi
-check_criterion "File /root/q49-top.txt is not empty" "$FILE_NOTEMPTY" && ((score++)) || true
+check_criterion "File ./q49-top.txt is not empty" "$FILE_NOTEMPTY" && ((score++)) || true
 
 print_score $score $total

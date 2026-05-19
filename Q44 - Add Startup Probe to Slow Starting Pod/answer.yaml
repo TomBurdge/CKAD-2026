@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: slow-start-pod
+  name: slow-start-pod
+  namespace: q44
+spec:
+  containers:
+  - image: nginx:latest
+    name: slow-start-pod
+    ports:
+    - containerPort: 80
+    resources: {}
+    startupProbe:
+      httpGet:
+        path: /healthz
+        port: 80
+      failureThreshold: 30
+      periodSeconds: 10
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

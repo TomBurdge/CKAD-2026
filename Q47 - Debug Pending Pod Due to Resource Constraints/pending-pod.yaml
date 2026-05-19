@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fixed-pod
+  namespace: q47
+spec:
+  containers:
+  - name: app
+    image: nginx:latest
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "50Mi"
+      limits:
+        cpu: "200m"
+        memory: "56Mi"
