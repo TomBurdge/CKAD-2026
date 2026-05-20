@@ -31,3 +31,15 @@ This repo misses helm and kustomize - must review these before exam.
 - [X] Q47 - 7:55. No docs. Slightly fiddly one (cross-referencing quota against final)
 - [X] Q48 - 2:12. No docs.
 - [X] Q49 - 1:57. No docs. This one was a bit bs - told me the commands to run.
+
+## 2026/05/20
+- [X] Q50 - 5:46. Docs only.
+- [X] Q51 - 5:46. No docs.
+- [X] Q52 - 2:23. No docs. Question gave clues which made it a bit easier. Common to be asked to troubleshoot, and with a service, is often label selector mismatch.
+- [X] Q53 - 6:56. Docs only. Took a bit longer because of wrong container name mistake.
+- [X] Q54 - 8:19. Docs only. Took longer because of indentation mistakes.
+- [X] Q55 - 4:26. Docs only.
+- [X] Q56 - 3:50. Docs only.
+- [X] Q57 - 2:24. Docs only. This was a funny one - nginx needs to run as super user, so the pod create fails, but the check qs don't check if the pod is available.
+- [X] Q58 - 7:57. Docs only. Dealt with some typos - must read question/be pedantic on fields.
+- [X] Q59 - 2:05. Docs only. 
