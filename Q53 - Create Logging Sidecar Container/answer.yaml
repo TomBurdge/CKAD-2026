@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: app-with-sidecar-logging
+  name: app-with-sidecar-logging
+  namespace: q53
+spec:
+  containers:
+  - image: busybox:1.36
+    name: app
+    command: ["/bin/sh", "-c", 'while true; do echo "$(date) - app log entry" >> /var/log/app.log; sleep 5; done']
+    resources: {}
+    volumeMounts:
+      - name: log-vol
+        mountPath: /var/log
+  - image: busybox:1.36
+    name: sidecar
+    command: ["/bin/sh", "-c", "tail -f /var/log/app.log"]
+    resources: {}
+    volumeMounts:
+      - name: log-vol
+        mountPath: /var/log
+  volumes:
+    - name: log-vol
+      emptyDir: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

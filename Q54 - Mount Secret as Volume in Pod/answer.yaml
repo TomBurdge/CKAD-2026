@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: secure-pod
+  name: secure-pod
+  namespace: q54
+spec:
+  volumes:
+  - name: tls-certs
+    secret:
+      secretName: tls-certs
+  containers:
+    - image: nginx:latest
+      name: secure-pod
+      resources: {}
+      volumeMounts:
+      - name: tls-certs
+        readOnly: true
+        mountPath: "/etc/tls"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: readonly-pod
+  name: readonly-pod
+  namespace: q58
+spec:
+  containers:
+  - image: busybox:latest
+    name: readonly-pod
+    command: ["/bin/sh", "-c", "sleep 3600"]
+    resources: {}
+    volumeMounts:
+      - name: empty-dir
+        mountPath: /tmp
+    securityContext:
+      readOnlyRootFilesystem: true
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+    - name: empty-dir
+      emptyDir: {}
+status: {}
