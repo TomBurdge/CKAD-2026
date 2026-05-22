@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: external-db
+  name: external-db
+  namespace: q73
+spec:
+  externalName: db.example.com
+  selector:
+    app: external-db
+  type: ExternalName
+status:
+  loadBalancer: {}

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: projected-pod
+  name: projected-pod
+  namespace: q62
+spec:
+  containers:
+  - image: nginx:1.25
+    name: projected-pod
+    resources: {}
+    volumeMounts:
+      - name: combined-vol
+        mountPath: "/etc/app-config"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+  - name: combined-vol
+    projected:
+      sources:
+        - secret:
+            name: app-secret
+            items:
+             - key: db-password
+               path: app-config-sct
+        - configMap:
+            name: app-config
+            items:
+              - key: app.properties
+                path: app-config-cfgm
+status: {}

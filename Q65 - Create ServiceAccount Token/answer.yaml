@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: null
+  name: api-service-account
+  namespace: q65
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: svc-acc-secret
+  annotations:
+    kubernetes.io/service-account.name: api-service-account
+    type: kubernetes.io/service-account-token

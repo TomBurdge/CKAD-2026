@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: downward-vol-pod
+  name: downward-vol-pod
+  namespace: q68
+spec:
+  containers:
+  - image: busybox:latest
+    command: ["/bin/sh", "-c", "cat /etc/podinfo/labels; sleep 3600;"]
+    name: downward-vol-pod
+    resources: {}
+    volumeMounts:
+      - name: downwardapivolume
+        mountPath: /etc/podinfo
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+    - name: downwardapivolume
+      downwardAPI:
+        items:
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels
+status: {}
